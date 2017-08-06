@@ -19,6 +19,8 @@ var EMsg = require('./enums/emsg');
 var definitions = new Definitions(options);
 var clients = {};
 
+const banner = new Buffer("0d0a205f5f5f5f5f205f5f5f5f5f5f5f5f5f5f5f2020202020202020205f5f5f5f5f20202020202020202020202020202020202020200d0a2f20205f5f5f2f20205f5f205c20205f20205c202020202020207c5f2020205f7c202020202020202020202020202020202020200d0a5c20602d2d2e7c202f20205c2f207c207c207c5f5f5f5f5f2020205f7c207c205f5f5f20205f5f205f205f205f5f205f5f5f20200d0a20602d2d2e205c207c2020207c207c207c202f205f205c205c202f202f207c2f205f205c2f205f60207c20275f2060205f205c200d0a2f5c5f5f2f202f205c5f5f2f5c207c2f202f20205f5f2f5c2056202f7c207c20205f5f2f20285f7c207c207c207c207c207c207c0d0a5c5f5f5f5f2f205c5f5f5f5f2f5f5f5f2f205c5f5f5f7c205c5f2f205c5f2f5c5f5f5f7c5c5f5f2c5f7c5f7c207c5f7c207c5f7c0d0a202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020200d0a202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020200d0a202020205f5f5f5f5f205f5f5f5f5f205f5f5f5f5f205f5f5f5f5f5f2020202020202020202020202020202020202020202020200d0a2020202f20205f5f205c20205f20202f20205f5f205c7c205f5f5f205c20202020202020202020202020202020202020202020200d0a2020207c202f20205c2f207c207c207c202f20205c2f7c207c5f2f202f205f5f205f5f5f5f5f20205f5f5f2020205f20202020200d0a2020207c207c2020207c207c207c207c207c202020207c20205f5f2f20275f5f2f205f205c205c2f202f207c207c207c202020200d0a2020207c205c5f5f2f5c205c5f2f202f205c5f5f2f5c7c207c20207c207c207c20285f29203e20203c7c207c5f7c207c202020200d0a202020205c5f5f5f5f2f5c5f5f5f2f205c5f5f5f5f2f5c5f7c20207c5f7c20205c5f5f5f2f5f2f5c5f5c5c5f5f2c207c202020200d0a202020202020202020202020202020202020202020202020202020202020202020202020202020202020205f5f2f207c202020200d0a2020202020202020202020202020202020202020202020202020202020202020202020202020202020207c5f5f5f2f2020202020", "hex");
+
 if(options.replay) {
     fs.readFile(options.replay.filename, {encoding: "binary"}, function(err, contents) {
         if(err) {
@@ -49,6 +51,7 @@ if(options.replay) {
 
     server.on('listening', function() {
         console.log('listening on ' + server.address().address + ':' + server.address().port);
+        console.log(banner.toString("utf8"));
     });
 
     server.on('connection', function(socket) {
@@ -67,7 +70,7 @@ if(options.replay) {
 
         console.log('new client ' + socket.key + ' connected, establishing connection to game server');
 
-        gameserver.connect(9339, "game.clashroyaleapp.com", function() {
+        gameserver.connect(9339, "gamea.clashofclans.com", function() {
             console.log('Connected to game server on ' + gameserver.remoteAddress + ':' + gameserver.remotePort);
         });
 
@@ -84,6 +87,8 @@ if(options.replay) {
 
                 clientCrypto.decryptPacket(message);
 
+		console.log("[SERVER DECRYPTED]: " + new Buffer(message.decrypted).toString('hex'));
+
                 if(options.dump) {
                     fs.writeFile(options.dump.filename + "/" + message.messageType + ".bin", Buffer.from(message.decrypted), {encoding: "binary"}, function(err) {
                         if(err) {
@@ -92,10 +97,10 @@ if(options.replay) {
                     });
                 }
 
-                definitions.decode(message);
+                //definitions.decode(message);
 
                 if(options.verbose && message.decoded && Object.keys(message.decoded).length) {
-                    jsome(message.decoded);
+                    //jsome(message.decoded);
                 }
 
                 serverCrypto.encryptPacket(message);
@@ -135,11 +140,13 @@ if(options.replay) {
                     });
                 }
 
-                definitions.decode(message);
+                //definitions.decode(message);
 
                 if(options.verbose && message.decoded && Object.keys(message.decoded).length) {
-                    jsome(message.decoded);
+                    //jsome(message.decoded);
                 }
+
+                console.log('[CLIENT DECRYPTED]: ' + new Buffer(message.decrypted).toString('hex'));
 
                 clientCrypto.encryptPacket(message);
 
