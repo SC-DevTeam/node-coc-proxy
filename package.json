@@ -1,10 +1,10 @@
 {
-  "name": "node-cr-proxy",
+  "name": "node-coc-proxy",
   "version": "1.0.0",
-  "description": "Clash Royale Proxy",
-  "homepage": "https://github.com/royale-proxy/node-cr-proxy",
+  "description": "Clash of Clans Proxy",
+  "homepage": "https://github.com/SC-DevTeam/node-coc-proxy",
   "bugs": {
-    "url": "https://github.com/royale-proxy/issues"
+    "url": "https://github.com/SC-DevTeam/node-coc-proxy/issues"
   },
   "main": "index.js",
   "author": "Steve Rabouin",
@@ -19,10 +19,10 @@
   "dependencies": {
     "blake2": "^1.4.0",
     "bytebuffer": "^5.0.1",
+    "coc-messages": "github:SC-DevTeam/coc-messages",
     "command-line-args": "^4.0.2",
     "command-line-usage": "^4.0.0",
     "console-stamp": "^0.2.5",
-    "cr-messages": "royale-proxy/cr-messages",
     "jsome": "^2.3.26",
     "tweetnacl": "^0.14.5"
   }

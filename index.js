@@ -97,10 +97,10 @@ if(options.replay) {
                     });
                 }
 
-                //definitions.decode(message);
+                definitions.decode(message);
 
                 if(options.verbose && message.decoded && Object.keys(message.decoded).length) {
-                    //jsome(message.decoded);
+                    jsome(message.decoded);
                 }
 
                 serverCrypto.encryptPacket(message);
